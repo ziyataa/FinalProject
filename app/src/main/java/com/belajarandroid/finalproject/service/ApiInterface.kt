@@ -3,26 +3,54 @@ package com.belajarandroid.finalproject.service
 import com.belajarandroid.finalproject.model.*
 import com.google.gson.JsonObject
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
 
-    @Headers("apikey: fad62f49c504ddc9f0698c2ee4d5b9ef6f4baf2cb562559a152bc8533ec63635c392c6bf234a2bdee429f8892faea420fe93675cf8dfec79842ba252b6292932")
-    @GET("splashscreen")
-    fun getSplashScreen() : Call<ResponseSplashScreen>?
+    @GET("attendance/splashscreen")
+    fun getSplashScreen(): Call<ResponseSplashScreen>?
 
-    @Headers("apikey: fad62f49c504ddc9f0698c2ee4d5b9ef6f4baf2cb562559a152bc8533ec63635c392c6bf234a2bdee429f8892faea420fe93675cf8dfec79842ba252b6292932")
-    @POST("registration")
-    fun register(@Body body: Register): Call<SuccessLogin?>?
+    @GET("attendance/onboarding")
+    fun getOnBoarding(): Call<ResponseOnBoarding>?
 
-    @Headers("apikey: fad62f49c504ddc9f0698c2ee4d5b9ef6f4baf2cb562559a152bc8533ec63635c392c6bf234a2bdee429f8892faea420fe93675cf8dfec79842ba252b6292932")
-    @POST("authentication")
-    fun login(@Body body: ResponseLogin): Call<SuccessLogin>?
+    @POST("attendance/registration")
+    fun register(@Body body: Register): Call<ResponseRegis?>?
 
-    @Headers("apikey: fad62f49c504ddc9f0698c2ee4d5b9ef6f4baf2cb562559a152bc8533ec63635c392c6bf234a2bdee429f8892faea420fe93675cf8dfec79842ba252b6292932")
-    @POST("forgot-password")
-    fun forgotPassword(@Body body: ResponseForgot): Call<ResponseForgotPassword>?
+    @POST("attendance/authentication")
+    fun login(@Body body: ResponseLogin): Call<ResponseUser>?
+
+    @PUT("attendance/forgot-password/{id}")
+    fun forgotPassword(
+        @Path("id") id: String?,
+        @Body body: ResponseForgot
+    ): Call<ResponseForgotPassword>?
+
+    @GET("attendance/account")
+    fun getProfile(
+        @Header("Authorization") auth: String?,
+        @Query("id_user") id: String?
+    ): Call<ResponseProfile>?
+
+    @GET("attendance/location")
+    fun getLocation(@Header("Authorization") auth: String?): Call<ResponseLocation>?
+
+    @GET("attendance/history")
+    fun getHistory(
+        @Header("Authorization") auth: String?,
+        @Query("id_user") id: String?,
+        @Query("periode") periode: String?
+    ): Call<ResponseHistory>?
+
+    @PUT("attendance/update-account/{id}")
+    fun updateProfile(
+        @Header("Authorization") auth: String?,
+        @Path("id") id: String?,
+        @Body body: EditProfile
+    ): Call<ResponseEditProfile>?
+
+    @POST("attendance/check_in")
+    fun checkin(
+        @Header("Authorization") auth: String?,
+        @Body body: ResponseCheckIn
+    ): Call<ResponseCheck>?
 }

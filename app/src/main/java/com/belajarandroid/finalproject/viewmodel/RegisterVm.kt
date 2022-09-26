@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.belajarandroid.finalproject.model.Register
+import com.belajarandroid.finalproject.model.ResponseRegis
 import com.belajarandroid.finalproject.model.SuccessLogin
 import com.belajarandroid.finalproject.service.ApiClient
 import com.belajarandroid.finalproject.service.ApiInterface
@@ -19,7 +20,7 @@ class RegisterVm() : ViewModel() {
     private val loadingState = MutableLiveData<Boolean>()
     private val errorState = MutableLiveData<Boolean>()
     private val responseStatus = MutableLiveData<Int>()
-    private val liveDataUserResponse = MutableLiveData<SuccessLogin>()
+    private val liveDataUserResponse = MutableLiveData<ResponseRegis>()
     lateinit var context: Context
     lateinit var localStorageHelper: LocalStorageHelper
     lateinit var apiInterFace: ApiInterface
@@ -30,10 +31,6 @@ class RegisterVm() : ViewModel() {
         apiInterFace = ApiClient.getClient(_context)?.create(ApiInterface::class.java)!!
     }
 
-    fun isLoadingState(): LiveData<Boolean> {
-        return loadingState
-    }
-
     fun isErrorState(): LiveData<Boolean> {
         return errorState
     }
@@ -42,11 +39,11 @@ class RegisterVm() : ViewModel() {
         return responseStatus
     }
 
-    val dataRegister : LiveData<SuccessLogin> get() = liveDataUserResponse
+    val dataRegister : LiveData<ResponseRegis> get() = liveDataUserResponse
 
     fun register(userData : Register) {
-        apiInterFace?.register(userData)?.enqueue(object : Callback<SuccessLogin?> {
-            override fun onResponse(call: Call<SuccessLogin?>, response: Response<SuccessLogin?>) {
+        apiInterFace.register(userData)?.enqueue(object : Callback<ResponseRegis?> {
+            override fun onResponse(call: Call<ResponseRegis?>, response: Response<ResponseRegis?>) {
                 loadingState.value = false
                 try {
                     responseStatus.value = response.code()
@@ -60,7 +57,7 @@ class RegisterVm() : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<SuccessLogin?>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseRegis?>, t: Throwable) {
                 loadingState.value = false
                 errorState.value = true
                 t.printStackTrace()

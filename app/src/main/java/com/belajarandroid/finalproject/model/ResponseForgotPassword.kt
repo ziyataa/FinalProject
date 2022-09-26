@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class ResponseForgotPassword(
 
 	@field:SerializedName("success")
-	val success: Success? = null
+	val success: SuccessForgotPassword? = null
 )
 
-data class Success(
+data class SuccessForgotPassword(
 
 	@field:SerializedName("message")
 	val message: String? = null,

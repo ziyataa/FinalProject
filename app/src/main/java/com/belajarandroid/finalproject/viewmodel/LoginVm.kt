@@ -18,7 +18,7 @@ class LoginVm() : ViewModel() {
     private val loadingState = MutableLiveData<Boolean>()
     private val errorState = MutableLiveData<Boolean>()
     private val responseStatus = MutableLiveData<Int>()
-    private val liveDataUserResponse = MutableLiveData<SuccessLogin>()
+    private val liveDataUserResponse = MutableLiveData<ResponseUser>()
     lateinit var context: Context
     lateinit var localStorageHelper: LocalStorageHelper
     lateinit var apiInterFace: ApiInterface
@@ -41,14 +41,14 @@ class LoginVm() : ViewModel() {
         return responseStatus
     }
 
-    val dataLogin: LiveData<SuccessLogin> get() = liveDataUserResponse
+    val dataLogin: LiveData<ResponseUser> get() = liveDataUserResponse
 
     fun login(loginData: ResponseLogin) {
         loadingState.value = true
-        apiInterFace.login(loginData)?.enqueue(object : Callback<SuccessLogin> {
+        apiInterFace.login(loginData)?.enqueue(object : Callback<ResponseUser> {
             override fun onResponse(
-                call: Call<SuccessLogin>,
-                response: Response<SuccessLogin>
+                call: Call<ResponseUser>,
+                response: Response<ResponseUser>
             ) {
                 loadingState.value = false
                 try {
@@ -64,7 +64,7 @@ class LoginVm() : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<SuccessLogin>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseUser>, t: Throwable) {
                 loadingState.value = false
                 errorState.value = true
                 t.printStackTrace()

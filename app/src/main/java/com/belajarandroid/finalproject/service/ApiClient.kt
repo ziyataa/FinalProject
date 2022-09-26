@@ -21,7 +21,7 @@ class ApiClient {
                     var localStorageHelper = LocalStorageHelper(context)
                     println("localstorage " + localStorageHelper.getUserToken())
                     val newRequest: Request = chain.request().newBuilder()
-                        .addHeader("Authorization", localStorageHelper.getUserToken())
+                        .addHeader("apikey", "TuIBt77u7tZHi8n7WqUC")
                         .build()
                     chain.proceed(newRequest)
                 }
@@ -45,7 +45,8 @@ class ApiClient {
             retrofit = null
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
-                    .baseUrl("http://8.215.65.108:5000/")
+//                    .baseUrl("http://8.215.65.108:5000/")
+                    .baseUrl("http://server.portlan.id/training_android/public/api/")
                     .client(getRequestHeader(context))
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()

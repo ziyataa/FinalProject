@@ -6,8 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ResponseForgot(
-    @SerializedName("idcardnumber")
-    var idcardnumber: String? = null,
+//    @SerializedName("idcardnumber")
+//    var idcardnumber: String? = null,
     @SerializedName("password")
     var password: String? = null,
     @SerializedName("confirm_password")

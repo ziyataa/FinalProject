@@ -1,5 +1,6 @@
 package com.belajarandroid.finalproject.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -13,6 +14,7 @@ import com.belajarandroid.finalproject.model.ResponseForgot
 import com.belajarandroid.finalproject.service.ApiClient
 import com.belajarandroid.finalproject.service.ApiInterface
 import com.belajarandroid.finalproject.utils.BaseVMF
+import com.belajarandroid.finalproject.utils.LocalStorageHelper
 import com.belajarandroid.finalproject.viewmodel.ForgotPasswordVm
 import com.belajarandroid.finalproject.viewmodel.RegisterVm
 
@@ -21,6 +23,9 @@ class ForgotPasswordActivity : AppCompatActivity() {
     lateinit var viewModel: ForgotPasswordVm
     var apiInterface: ApiInterface? = null
     lateinit var dialog: AlertDialog
+    lateinit var localStorageHelper: LocalStorageHelper
+
+    private var dataUser :  ResponseForgot? = null
 
     private lateinit var binding: ActivityForgotPasswordBinding
 
@@ -32,6 +37,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
         supportActionBar?.hide()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        localStorageHelper = LocalStorageHelper(this)
+
         apiInterface = ApiClient.getClient(this)?.create(ApiInterface::class.java)
         val viewModelFactory = BaseVMF(ForgotPasswordVm(this))
         viewModel = ViewModelProvider(this, viewModelFactory)[ForgotPasswordVm::class.java]
@@ -41,15 +48,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         binding.apply {
             btnResetPassword.setOnClickListener {
-
                 val user = ResponseForgot()
                 val idcardnumber = edtIdCardForgotPassword.text.toString()
                 val password = edtPasswordForgotPassword.text.toString()
                 val confirm_password = edtRepeatPasswordForgotPassword.text.toString()
-
-                user.idcardnumber = idcardnumber
-                user.password = password
-                user.confirm_password = confirm_password
+                dataUser = ResponseForgot(password, confirm_password)
 
                 if (idcardnumber.isEmpty() || password.isEmpty() || confirm_password.isEmpty()) {
                     Toast.makeText(
@@ -64,42 +67,45 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    viewModel.forgotPassword(user)
+                    user.password = edtPasswordForgotPassword.text.toString()
+                    user.confirm_password = edtRepeatPasswordForgotPassword.text.toString()
+                    dataUser?.let {
+                        viewModel.forgotPassword(idcardnumber, it)
+                    }
                 }
 
             }
 
+            txtLoginForgotPassword.setOnClickListener {
+                startActivity(Intent(this@ForgotPasswordActivity, LoginActivity::class.java))
+            }
         }
     }
 
     private fun initLiveData() {
-        viewModel.isLoadingState()?.observe(this) {
-//            if(it){
-//                progressBar.visibility = View.VISIBLE
-//                swiperefreshlayout.visibility = View.GONE
-//                return@observe
-//            }else{
-//                progressBar.visibility = View.GONE
-//                swiperefreshlayout.visibility = View.VISIBLE
-//            }
-        }
 
-        viewModel?.responseStatus()?.observe(this) {
-            if (it != 200) {
-                Toast.makeText(this, "Gagal mengambil data", Toast.LENGTH_SHORT).show()
+        viewModel.responseStatus().observe(this) {
+            if(it != 200){
+                Toast.makeText(this, "Gagal mengupdate data", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Berhasil mengupdate data", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
         }
 
-        viewModel?.isErrorState()?.observe(this) {
+        viewModel.isErrorState().observe(this) {
             if (it == null) return@observe
             if (it) {
                 Toast.makeText(this, "Gagal mengambil data", Toast.LENGTH_SHORT).show()
             }
         }
 
-        viewModel.dataForgotPassword?.observe(this) {
-            Toast.makeText(this, "Berhasil Merubah Password", Toast.LENGTH_SHORT).show()
-            finish()
+        viewModel.dataForgotPassword.observe(this) {
+            if (it != null){
+                Toast.makeText(this, "Berhasil mengupdate data", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }

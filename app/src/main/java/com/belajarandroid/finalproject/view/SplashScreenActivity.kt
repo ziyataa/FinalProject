@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +28,8 @@ class SplashScreenActivity : AppCompatActivity() {
     var apiInterface: ApiInterface? = null
     lateinit var binding: ActivitySplashScreenBinding
 
+    private var firstInstaller: Boolean? = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
@@ -34,9 +37,14 @@ class SplashScreenActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        localStorageHelper = LocalStorageHelper(this)
+
         apiInterface = ApiClient.getClient(this)?.create(ApiInterface::class.java)
         val viewModelFactory = BaseVMF(SplashScreenVm(this))
         viewModel = ViewModelProvider(this, viewModelFactory)[SplashScreenVm::class.java]
+
+        firstInstaller = localStorageHelper.getFirstInstall()
+        Log.d("abcd" ,firstInstaller.toString())
 
         viewModel.splash()
         initLiveData()
@@ -47,17 +55,31 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun initLiveData() {
-        viewModel.dataSplash.observe(this){
+        viewModel.dataSplash.observe(this) {
             Glide.with(this)
                 .load(it.success?.result?.image?.path)
                 .into(binding.imgSplashScreen)
 
             object : CountDownTimer(5000, 1000) {
                 override fun onFinish() {
-                    if(localStorageHelper.checkLogin()){
+                    if (localStorageHelper.checkLogin() == true) {
                         startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
-                    }else{
-                        startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
+                    } else {
+                        if (firstInstaller == true) {
+                            startActivity(
+                                Intent(
+                                    this@SplashScreenActivity,
+                                    LoginActivity::class.java
+                                )
+                            )
+                        } else {
+                            startActivity(
+                                Intent(
+                                    this@SplashScreenActivity,
+                                    OnBoardingActivity::class.java
+                                )
+                            )
+                        }
                     }
                     finish()
                 }
@@ -69,10 +91,6 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun splash() {
-//        val data = ResponseLogin(username, password)
-//        viewModel.splash(data)
-    }
     private fun initStatusBar() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

@@ -22,8 +22,11 @@ class LocalStorageHelper {
     val username = "username"
     val fullname = "fullname"
     val nik = "nik"
+    val position = "position"
+    val address = "address"
     val token = "token"
     val isLogin = "isLogin"
+    val firstIstall = "firstInstall"
 
     fun createLogin(
         _id: String?,
@@ -41,11 +44,31 @@ class LocalStorageHelper {
         editor?.commit()
     }
 
-    fun setUserToken(token : String) {
-        editor?.putString(token, pref?.getString(token, ""))
+    fun setUserToken(auth : String) : String {
+        editor?.putString(token,auth)
+        editor?.commit()
+        return pref!!.getString(token, auth)!!
+    }
+
+    fun putFirstInstall(fisrtInstall : Boolean) : Boolean {
+        editor?.putBoolean(firstIstall, fisrtInstall)
+        editor?.commit()
+        return pref!!.getBoolean(firstIstall, fisrtInstall)
+    }
+
+    fun setUsername(username : String) {
+        editor?.putString(username, pref?.getString(username, ""))
         editor?.commit()
     }
 
+    fun setUserId(idUser : Int) {
+        editor?.putInt(id, idUser)
+        editor?.commit()
+    }
+
+    fun getUserId() : Int? {
+        return pref!!.getInt(id, 0 )
+    }
 
     fun getUserToken(): String {
         return pref!!.getString(token, "")!!
@@ -55,12 +78,26 @@ class LocalStorageHelper {
         return pref!!.getBoolean(isLogin, false)
     }
 
-    fun getUserId() : String? {
-        return pref!!.getString(id, "")
+
+    fun getFirstInstall() : Boolean {
+        return pref!!.getBoolean(firstIstall, false)
     }
+
 
     fun getUserName() : String {
         return pref!!.getString(username, "")!!
+    }
+
+    fun getUserNik() : String {
+        return pref!!.getString(nik, "")!!
+    }
+
+    fun getUserPosition() : String {
+        return pref!!.getString(position, "")!!
+    }
+
+    fun getUserAddress() : String {
+        return pref!!.getString(address, "")!!
     }
 
     fun getFullName() : String {

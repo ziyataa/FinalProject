@@ -1,5 +1,6 @@
 package com.belajarandroid.finalproject.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -71,21 +72,16 @@ class RegisterActivity : AppCompatActivity() {
 
             }
 
+            txtLoginRegister.setOnClickListener {
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            }
+
+
         }
 
     }
 
     private fun initLiveData() {
-        viewModel.isLoadingState()?.observe(this) {
-//            if(it){
-//                progressBar.visibility = View.VISIBLE
-//                swiperefreshlayout.visibility = View.GONE
-//                return@observe
-//            }else{
-//                progressBar.visibility = View.GONE
-//                swiperefreshlayout.visibility = View.VISIBLE
-//            }
-        }
 
         viewModel?.responseStatus()?.observe(this) {
             if (it != 200) {
@@ -100,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.dataRegister?.observe(this) {
+        viewModel.dataRegister.observe(this) {
             Toast.makeText(this, "Berhasil mendaftar", Toast.LENGTH_SHORT).show()
             finish()
         }

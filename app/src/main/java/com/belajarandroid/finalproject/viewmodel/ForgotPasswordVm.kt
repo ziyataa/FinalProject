@@ -44,8 +44,8 @@ class ForgotPasswordVm() : ViewModel() {
 
     val dataForgotPassword: LiveData<ResponseForgotPassword> get() = liveDataUserResponse
 
-    fun forgotPassword(userData : ResponseForgot) {
-        apiInterFace?.forgotPassword(userData)?.enqueue(object : Callback<ResponseForgotPassword?> {
+    fun forgotPassword(id : String, userData : ResponseForgot) {
+        apiInterFace.forgotPassword(id, userData)?.enqueue(object : Callback<ResponseForgotPassword?> {
             override fun onResponse(call: Call<ResponseForgotPassword?>, response: Response<ResponseForgotPassword?>) {
                 loadingState.value = false
                 try {

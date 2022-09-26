@@ -28,10 +28,6 @@ class SplashScreenVm() : ViewModel() {
         apiInterFace = ApiClient.getClient(_context)?.create(ApiInterface::class.java)!!
     }
 
-    fun isLoadingState(): LiveData<Boolean> {
-        return loadingState
-    }
-
     fun isErrorState(): LiveData<Boolean> {
         return errorState
     }
@@ -42,7 +38,7 @@ class SplashScreenVm() : ViewModel() {
 
     val dataSplash: LiveData<ResponseSplashScreen> get() = liveDataUserResponse
     fun splash() {
-        apiInterFace?.getSplashScreen()?.enqueue(object : Callback<ResponseSplashScreen?> {
+        apiInterFace.getSplashScreen()?.enqueue(object : Callback<ResponseSplashScreen?> {
             override fun onResponse(call: Call<ResponseSplashScreen?>, response: Response<ResponseSplashScreen?>) {
                 if (response.isSuccessful) {
                     loadingState.value = false

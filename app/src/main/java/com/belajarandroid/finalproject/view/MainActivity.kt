@@ -28,24 +28,25 @@ class MainActivity : AppCompatActivity() {
         loadFragment(HomeFragment())
 
         binding.navView.setOnItemSelectedListener {
-            var fragment: Fragment? = null
-
             when (it.itemId) {
                 R.id.home -> {
-                    fragment = HomeFragment()
+                    loadFragment(HomeFragment())
+                    true
                 }
                 R.id.history -> {
-                    fragment = HistoryFragment()
+                    loadFragment(HistoryFragment())
+                    true
                 }
-                else -> {
-                    fragment = ProfileFragment()
+                R.id.profile -> {
+                    loadFragment(ProfileFragment())
+                    true
                 }
+                else -> false
             }
-            return@setOnItemSelectedListener loadFragment(fragment)
         }
     }
 
-    private fun loadFragment(fragment: Fragment) : Boolean {
+    private fun loadFragment(fragment: Fragment): Boolean {
         if (fragment != null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_container, fragment)

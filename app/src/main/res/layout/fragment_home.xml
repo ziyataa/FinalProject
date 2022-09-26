@@ -1,94 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".view.HomeFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="horizontal"
-            android:background="@color/bilu">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/your_attendance"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/imgNotification"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_marginTop="50dp"
-                android:src="@drawable/notif"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/background_activity"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
+                android:layout_height="300dp"
+                android:orientation="horizontal"
+                android:background="@color/bilu">
 
                 <TextView
-                    android:id="@+id/txtHourHome"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/hour"
-                    android:textColor="@color/abu" />
+                    android:layout_weight="0.5"
+                    android:text="@string/your_attendance"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="50dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtDateHome"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:id="@+id/imgNotification"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:text="@string/date"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/abu" />
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/notif"/>
             </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgCheck"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center"
-                android:background="@drawable/oval_checkin" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:text="@string/location"
-                android:textColor="@color/bilutua"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvPtPhincon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="150dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/background_activity"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,124 +52,54 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/phincon" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:layout_weight="0.2"
+                        android:text="@string/hourr"
+                        android:textColor="@color/abu" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/phincon"
-                            android:textColor="@color/abu"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/txtHourHome"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/hour"
+                        android:layout_marginStart="3dp"
+                        android:textColor="@color/abu" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/desc_list_phincon"
-                            android:textColor="@color/abu"
-                            android:textSize="11sp"
-                            android:layout_marginTop="5dp"/>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtDateHome"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/date"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/abu" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvTelkomsel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgCheck"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/oval_checkin" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="10dp"
+                    android:text="@string/location"
+                    android:textColor="@color/bilutua"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/telkomsel" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/telkomsel"
-                            android:textColor="@color/abu"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/desc_list_telkomsel"
-                            android:textColor="@color/abu"
-                            android:textSize="11sp"
-                            android:layout_marginTop="5dp"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvRumah"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/rumah" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/rumah"
-                            android:textColor="@color/abu"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/desc_list_rumah"
-                            android:textColor="@color/abu"
-                            android:textSize="11sp"
-                            android:layout_marginTop="5dp"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-</RelativeLayout>
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp" />
+            </LinearLayout>
+        </RelativeLayout>
+</LinearLayout>

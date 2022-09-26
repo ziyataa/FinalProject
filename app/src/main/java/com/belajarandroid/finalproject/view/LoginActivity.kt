@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity(){
 
     lateinit var binding: ActivityLoginBinding
     
-    private var dataLogin: SuccessLogin? = null
+    private var dataLogin: ResponseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity(){
     }
 
     private fun initLiveData() {
-        viewModel?.isLoadingState()?.observe(this) {
+        viewModel.isLoadingState()?.observe(this) {
             if (it) {
                 dialog.show()
                 return@observe
@@ -88,11 +88,9 @@ class LoginActivity : AppCompatActivity(){
             dialog.dismiss()
         }
 
-        viewModel?.responseStatus()?.observe(this) {
+        viewModel.responseStatus()?.observe(this) {
             if (it == 200 || it == 201){
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
                 Toast.makeText(this@LoginActivity, "Berhasil Login", Toast.LENGTH_SHORT).show()
             } else {
@@ -111,7 +109,10 @@ class LoginActivity : AppCompatActivity(){
         {
             dataLogin = it
             if (dataLogin != null) {
-                localStorageHelper.setUserToken(it.token?:"") }
+                localStorageHelper.setUserToken(it.success?.token?:"")
+                localStorageHelper.setUsername(it.success?.dataUser?.fullname?:"")
+                localStorageHelper.setUserId(it.success?.dataUser?.id?:0)
+            }
         }
     }
 
